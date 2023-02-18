@@ -1,96 +1,67 @@
-# What is State Management?
-## A simple counter example
+# React UI & Reusability
+## With React State Management & Components
 
-## index.html
-```html
-<!DOCTYPE html>
-<html lang="en">
+# What we have learned so far
+- Our application had 3 parts - view, action and state
+- State is the source of truth that drives our app
+- View is the declarative description of the UI based on the current state
+- Actions are the events that occur in the app based on user input and trigger updates in the state
+- This is called one-way data flow
 
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple Counter Application</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+## App.js
+```js
+import React from 'react';
+import Counter from './components/Counter';
 
-<body>
-    <div class="w-screen h-screen p-10 bg-gray-100 text-slate-700">
-        <!-- header -->
-        <h1 class="max-w-md mx-auto text-center text-2xl font-bold">
-            Simple Counter Application
-        </h1>
+const App = () => {
+  return (
+    <div className="w-screen h-screen p-10 bg-gray-100 text-slate-700">
+      {/* header */}
+      <h1 className="max-w-md mx-auto text-center text-2xl font-bold">
+        Simple Counter Application
+      </h1>
 
-        <!-- counters -->
-        <!-- counter 1 -->
-        <div class="max-w-md mx-auto mt-10 space-y-5">
-            <div class="p-4 h-auto flex flex-col items-center justify-center space-y-5 bg-white rounded shadow">
-                <div class="text-2xl font-semibold" id="counter">0</div>
-                <div class="flex space-x-3">
-                    <button class="bg-indigo-400 text-white px-3 py-2 rounded shadow" id="increment">
-                        Increment
-                    </button>
-                    <button class="bg-red-400 text-white px-3 py-2 rounded shadow" id="decrement">
-                        Decrement
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- counter 2 -->
-        <div class="max-w-md mx-auto mt-10 space-y-5">
-            <div class="p-4 h-auto flex flex-col items-center justify-center space-y-5 bg-white rounded shadow">
-                <div class="text-2xl font-semibold" id="counter2">0</div>
-                <div class="flex space-x-3">
-                    <button class="bg-indigo-400 text-white px-3 py-2 rounded shadow" id="increment2">
-                        Increment
-                    </button>
-                    <button class="bg-red-400 text-white px-3 py-2 rounded shadow" id="decrement2">
-                        Decrement
-                    </button>
-                </div>
-            </div>
-        </div>
+      {/* counters */}
+      <Counter></Counter>
+      <Counter></Counter>
     </div>
+  );
+};
 
-    <script src="./script.js"></script>
-</body>
-
-</html>
+export default App;
 ```
 
-## script.js
+## Counter.js
 ```js
-// select dom elements
-const counterEl = document.getElementById("counter");
-const incrementEl = document.getElementById("increment");
-const decrementEl = document.getElementById("decrement");
+import React, {useState} from 'react';
 
-const counter2El = document.getElementById("counter2");
-const increment2El = document.getElementById("increment2");
-const decrement2El = document.getElementById("decrement2");
+const Counter = () => {
+    const [count, setCount] = useState(0);
 
-// initial state
-let count = 0;
+    const increment = () => {
+        setCount((prevCount) => prevCount + 1);
+    };
 
-// event listeners
-incrementEl.addEventListener('click', () => {
-    count++;
-    counterEl.innerText = count;
-});
+    const decrement = () => {
+        setCount((prevCount) => prevCount - 1);
+    };
 
-decrementEl.addEventListener('click', () => {
-    count--;
-    counterEl.innerText = count;
-});
+    return (
+        <div className="max-w-md mx-auto mt-10 space-y-5">
+            <div className="p-4 h-auto flex flex-col items-center justify-center space-y-5 bg-white rounded shadow">
+                <div className="text-2xl font-semibold">{count}</div>
+                <div className="flex space-x-3">
+                    <button className="bg-indigo-400 text-white px-3 py-2 rounded shadow" onClick={increment}>
+                        Increment
+                    </button>
+                    <button className="bg-red-400 text-white px-3 py-2 rounded shadow" onClick={decrement}>
+                        Decrement
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
 
-increment2El.addEventListener('click', () => {
-    count++;
-    counter2El.innerText = count;
-});
-
-decrement2El.addEventListener('click', () => {
-    count--;
-    counter2El.innerText = count;
-});
+export default Counter;
 ```
