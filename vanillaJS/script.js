@@ -3,6 +3,10 @@ const counterEl = document.getElementById("counter");
 const incrementEl = document.getElementById("increment");
 const decrementEl = document.getElementById("decrement");
 
+const counter2El = document.getElementById("counter2");
+const increment2El = document.getElementById("increment2");
+const decrement2El = document.getElementById("decrement2");
+
 // initial state
 let count = 0;
 
@@ -15,4 +19,14 @@ incrementEl.addEventListener('click', () => {
 decrementEl.addEventListener('click', () => {
     count--;
     counterEl.innerText = count;
+});
+
+increment2El.addEventListener('click', () => {
+    count++;
+    counter2El.innerText = count;
+});
+
+decrement2El.addEventListener('click', () => {
+    count--;
+    counter2El.innerText = count;
 });
