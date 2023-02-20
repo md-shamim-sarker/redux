@@ -1,94 +1,43 @@
-# Immutability Concept
-## Need to notice ITEST
+# Why reducers are called reducers
+
 ```js
-// select dom elements
-const counterEl = document.getElementById("counter");
-const incrementEl = document.getElementById("increment");
-const decrementEl = document.getElementById("decrement");
+const array = [1, 2, 3, 4, 5];
 
-// action identifiers
-const INCREMENT = 'increment';
-const DECREMENT = 'decrement';
-const ITEST = 'itest';
+const arraySum = array.reduce((previousResult, currentValue) => {
+    return previousResult + currentValue;
+}, 0);
 
-// action creator
-const increment = (value) => {
-    return {
-        type: INCREMENT,
-        payload: value
-    };
-};
+console.log(arraySum);
 
-const decrement = (value) => {
-    return {
-        type: DECREMENT,
-        payload: value
-    };
-};
+// -------------------------------------------
 
-// initial state
+const actions = [
+    {type: "increment", payload: 1},
+    {type: "increment", payload: 1},
+    {type: "increment", payload: 1},
+    {type: "decrement", payload: 1},
+];
+
 const initialState = {
     value: 0,
-    properties: {
-        a: 5,
-        b: 6,
-    },
 };
 
-// create reducer function
-function counterReducer(state = initialState, action) {
-    if(action.type === INCREMENT) {
+const counterReducer = (state, action) => {
+    if(action.type === "increment") {
         return {
             ...state,
-            value: state.value + action.payload
+            value: state.value + action.payload,
         };
-    } else if(action.type === DECREMENT) {
-        if(state.value > 0) {
-            return {
-                ...state,
-                value: state.value - action.payload
-            };
-        } else {
-            return {
-                ...state,
-                value: 0
-            };
-        }
-
-    } else if(action.type === ITEST) {
-        const updatedState = {
+    } else if(action.type === "decrement") {
+        return {
             ...state,
-            properties: {
-                ...state.properties,
-                b: state.properties.b + 1
-            }
-        }
-    } else {
-        return state;
+            value: state.value - action.payload,
+        };
     }
-}
-
-// create store
-// eslint-disable-next-line no-undef
-const store = Redux.createStore(counterReducer);
-
-// button click listeners
-incrementEl.addEventListener("click", () => {
-    store.dispatch(increment(5));
-});
-
-decrementEl.addEventListener("click", () => {
-    store.dispatch(decrement(5));
-});
-
-// render and subscribe
-const render = () => {
-    const state = store.getState();
-    counterEl.innerText = state.value.toString();
 };
 
-render();
+const finalResult = actions.reduce(counterReducer, initialState);
 
-store.subscribe(render);
+console.log(finalResult);
 
 ```
