@@ -5,46 +5,19 @@
 ```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simple Counter Application</title>
-    <!-- import redux from cdn -->
     <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
 </head>
-
 <body>
     <div>
-        <!-- header -->
-        <h1>
-            Simple Counter Application
-        </h1>
-
-        <!-- counters -->
-        <!-- counter 1 -->
-        <div>
-            <div>
-                <div id="counter"></div>
-                <div>
-                    <button id="increment">
-                        Increment
-                    </button>
-                    <button id="decrement">
-                        Decrement
-                    </button>
-                </div>
-            </div>
-        </div>
+        <div id="counter"></div>
+        <button id="increment">Increment</button>
+        <button id="decrement">Decrement</button>
     </div>
-
     <script src="./script.js"></script>
 </body>
-
 </html>
 ```
-
 ## script.js
 ```js
 // select dom elements
@@ -122,5 +95,4 @@ const render = () => {
 render();
 
 store.subscribe(render);
-
 ```
