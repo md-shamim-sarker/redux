@@ -1,57 +1,119 @@
-# Rewrite the counter application
-## with vanilla Redux
+# Action Payloads & Creators
+## Why we need Action Creators
 
-# Steps for working with vanilla Redux and Vanilla JS
-## Step 0: Import Redux from CDN in index.html
+## index.html
 ```html
-<script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Counter Application</title>
+    <!-- import redux from cdn -->
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <!-- header -->
+        <h1>
+            Simple Counter Application
+        </h1>
+
+        <!-- counters -->
+        <!-- counter 1 -->
+        <div>
+            <div>
+                <div id="counter"></div>
+                <div>
+                    <button id="increment">
+                        Increment
+                    </button>
+                    <button id="decrement">
+                        Decrement
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
 ```
-## Step 1: Initial State
+
+## script.js
 ```js
+// select dom elements
+const counterEl = document.getElementById("counter");
+const incrementEl = document.getElementById("increment");
+const decrementEl = document.getElementById("decrement");
+
+// action identifiers
+const INCREMENT = 'increment';
+const DECREMENT = 'decrement';
+
+// action creator
+const increment = (value) => {
+    return {
+        type: INCREMENT,
+        payload: value
+    };
+};
+
+const decrement = (value) => {
+    return {
+        type: DECREMENT,
+        payload: value
+    };
+};
+
+// initial state
 const initialState = {
     value: 0
 };
-```
-## Step 2: Create Reducer Function
-```js
+
+// create reducer function
 function counterReducer(state = initialState, action) {
-    if(action.type === "increment") {
+    if(action.type === INCREMENT) {
         return {
             ...state,
-            value: state.value + 1
+            value: state.value + action.payload
         };
-    } else if(action.type === "decrement") {
-        return {
-            ...state,
-            value: state.value - 1
-        };
+    } else if(action.type === DECREMENT) {
+        if(state.value > 0) {
+            return {
+                ...state,
+                value: state.value - action.payload
+            };
+        } else {
+            return {
+                ...state,
+                value: 0
+            };
+        }
+
     } else {
         return state;
     }
 }
-```
-## Step 3: create store
-```js
-const store = Redux.createStore(counterReducer);
-```
 
-## Step 4: button click listeners
-```js
+// create store
+const store = Redux.createStore(counterReducer);
+
+// button click listeners
 incrementEl.addEventListener("click", () => {
-    store.dispatch({
-        type: "increment"
-    });
+    store.dispatch(increment(5));
 });
 
 decrementEl.addEventListener("click", () => {
-    store.dispatch({
-        type: "decrement"
-    });
+    store.dispatch(decrement(5));
 });
-```
 
-## Step 5: render and subscribe
-```js
+// render and subscribe
 const render = () => {
     const state = store.getState();
     counterEl.innerText = state.value.toString();
@@ -60,4 +122,5 @@ const render = () => {
 render();
 
 store.subscribe(render);
+
 ```
