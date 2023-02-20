@@ -6,6 +6,7 @@ const decrementEl = document.getElementById("decrement");
 // action identifiers
 const INCREMENT = 'increment';
 const DECREMENT = 'decrement';
+const ITEST = 'itest';
 
 // action creator
 const increment = (value) => {
@@ -24,7 +25,11 @@ const decrement = (value) => {
 
 // initial state
 const initialState = {
-    value: 0
+    value: 0,
+    properties: {
+        a: 5,
+        b: 6,
+    },
 };
 
 // create reducer function
@@ -47,6 +52,14 @@ function counterReducer(state = initialState, action) {
             };
         }
 
+    } else if(action.type === ITEST) {
+        const updatedState = {
+            ...state,
+            properties: {
+                ...state.properties,
+                b: state.properties.b + 1
+            }
+        };
     } else {
         return state;
     }
