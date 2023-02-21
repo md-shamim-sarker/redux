@@ -1,88 +1,46 @@
-# Setup react-redux
+# Connect API
+## mapStateToProps() & mapDispatchToProps()
 
-## Step 0: npm install redux react-redux
-## Step 1: src/redux/counter/actionTypes.js
-```js
-export const INCREMENT = 'counter/increment';
-export const DECREMENT = 'counter/decrement';
-```
-## Step 2: src/redux/counter/actions.js
-```js
-import {DECREMENT, INCREMENT} from "./actionTypes";
+## A Higher-order Component is a function that takes a component as parameter and returns a new component.
+- const NewComponent = HOC(OriginalComponent)
 
-export const increment = (value) => {
-    return {
-        type: INCREMENT,
-        payload: value,
-    };
-};
-
-export const decrement = (value) => {
-    return {
-        type: DECREMENT,
-        payload: value,
-    };
-};
-```
-## Step 3: src/redux/counter/counterReducer.js
-```js
-import {DECREMENT, INCREMENT} from "./actionTypes";
-
-const initialState = {
-    value: 0
-};
-
-const counterReducer = (state = initialState, action) => {
-    switch(action.type) {
-        case INCREMENT:
-            return {
-                ...state,
-                value: state.value + 1,
-            };
-        case DECREMENT:
-            return {
-                ...state,
-                value: state.value - 1,
-            };
-        default:
-            return state;
-    }
-};
-
-export default counterReducer;
-```
-## Step 4: src/redux/store.js
-```js
-import {createStore} from "redux";
-import counterReducer from "./counter/counterReducer";
-
-const store = createStore(counterReducer);
-
-export default store;
-```
-## Step 5: src/App.js
+## src/components/Counter.js
 ```js
 import React from 'react';
-import {Provider} from 'react-redux';
-import Counter from './components/Counter';
-import store from './redux/store';
+import {connect} from 'react-redux';
+import {decrement, increment} from '../redux/counter/actions';
 
-const App = () => {
-  return (
-    <Provider store={store}>
-      <div className="w-screen h-screen p-10 bg-gray-100 text-slate-700">
-        {/* header */}
-        <h1 className="max-w-md mx-auto text-center text-2xl font-bold">
-          Simple Counter Application
-        </h1>
+const Counter = ({count, increment, decrement}) => {
 
-        {/* counters */}
-        <Counter></Counter>
-        <Counter></Counter>
-      </div>
-    </Provider>
-  );
+    return (
+        <div className="max-w-md mx-auto mt-10 space-y-5">
+            <div className="p-4 h-auto flex flex-col items-center justify-center space-y-5 bg-white rounded shadow">
+                <div className="text-2xl font-semibold">{count}</div>
+                <div className="flex space-x-3">
+                    <button className="bg-indigo-400 text-white px-3 py-2 rounded shadow" onClick={increment}>
+                        Increment
+                    </button>
+                    <button className="bg-red-400 text-white px-3 py-2 rounded shadow" onClick={decrement}>
+                        Decrement
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 };
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        count: state.value,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        increment: (value) => dispatch(increment(value)),
+        decrement: (value) => dispatch(decrement(value)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
 ```

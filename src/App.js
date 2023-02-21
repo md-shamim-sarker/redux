@@ -14,7 +14,6 @@ const App = () => {
 
         {/* counters */}
         <Counter></Counter>
-        <Counter></Counter>
       </div>
     </Provider>
   );

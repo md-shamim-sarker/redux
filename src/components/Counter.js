@@ -1,15 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
+import {decrement, increment} from '../redux/counter/actions';
 
-const Counter = () => {
-    const [count, setCount] = useState(0);
-
-    const increment = () => {
-        setCount((prevCount) => prevCount + 1);
-    };
-
-    const decrement = () => {
-        setCount((prevCount) => prevCount - 1);
-    };
+const Counter = ({count, increment, decrement}) => {
 
     return (
         <div className="max-w-md mx-auto mt-10 space-y-5">
@@ -28,4 +21,17 @@ const Counter = () => {
     );
 };
 
-export default Counter;
+const mapStateToProps = (state) => {
+    return {
+        count: state.value,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        increment: (value) => dispatch(increment(value)),
+        decrement: (value) => dispatch(decrement(value)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter);
